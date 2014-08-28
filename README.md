@@ -1,0 +1,37 @@
+# sonarqube-mysql
+
+Configures a MySQL instance with a database and user for SonarQube. Provides LWRPs for managing sonar configuration held in the MySQL database.
+
+## Notes
+
+- See `test/integration/cookbooks/test` for usage examples
+- Does not install SonarQube in case there are specific Java needs on your system
+  - add `sonarqube::default` to your run list after `sonarqube-mysql::default` for a simple installation
+    - remember to override the JDBC connection attributes to point to your MySQL database
+  - it is necesarry to install and run SonarQube before calling the LWRPs as this populates the initial state of the database
+- Does not install MySQL in case there are specific needs on your system
+  - add `mysql::server` to your run list before `sonarqube-mysql::default` for a simple installation
+- Does not run `apt::default` on Ubuntu
+  - add `apt::default` to your run list before anything else if you need it (ie. for the Java installation as described in the previous bullet)
+
+## Contributing
+
+### Prerequisites
+
+- [ChefDK](http://downloads.getchef.com/chef-dk/ "ChefDK")
+- Recent RuboCop
+  
+  ```
+  chef gem install rubocop
+  ```
+
+### Testing
+
+Test changes using
+
+```
+chef exec rake
+chef exec kitchen verify
+```
+
+

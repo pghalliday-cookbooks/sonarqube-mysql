@@ -1,0 +1,6 @@
+name 'test'
+depends 'apt'
+depends 'java'
+depends 'mysql'
+depends 'sonarqube-mysql'
+depends 'sonarqube'
