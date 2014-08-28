@@ -32,8 +32,8 @@ action :add do
       WHERE permission_templates.kee = '#{new_resource.permission_template}'
       #{group_id_condition}
       AND NOT EXISTS (
-        SELECT 1 
-        FROM perm_templates_groups 
+        SELECT 1
+        FROM perm_templates_groups
         WHERE permission_reference = '#{new_resource.permission_reference}'
         AND group_id #{group_id_condition_2}
         AND template_id IN (
