@@ -5,18 +5,38 @@ end
 use_inline_resources
 
 def mysql_connection_info
-  sonarqube_mysql_mysql_host = node['sonarqube-mysql']['mysql']['host']
-  sonarqube_mysql_mysql_username = node['sonarqube-mysql']['mysql']['username']
-  sonarqube_mysql_mysql_password = node['sonarqube-mysql']['mysql']['password']
-
   {
-    host: sonarqube_mysql_mysql_host,
-    username: sonarqube_mysql_mysql_username,
-    password: sonarqube_mysql_mysql_password
+    host: node['sonarqube-mysql']['mysql']['host'],
+    username: node['sonarqube-mysql']['username'],
+    password: node['sonarqube-mysql']['password']
   }
 end
 
+def retry_server(message, attempts)
+  Chef::Log.info("Waiting for server: #{message}")
+  sleep(5)
+  wait_for_server(attempts - 1)
+end
+
+def wait_for_server(attempts)
+  if attempts == 0
+    raise 'Timed out waiting for server'
+  end
+  uri = URI("#{node['sonarqube-mysql']['sonarqube']['url']}/api/server?format=json")
+  begin
+    response = Net::HTTP.get(uri)
+    status = JSON.parse(response)['status']
+    unless status == 'UP'
+      retry_server("status: #{status}", attempts)
+    end
+  rescue Exception => e
+    retry_server(e.message, attempts)
+  end
+end
+
 action :add do
+  wait_for_server(36)
+
   group_id_field = new_resource.group ? 'group_id, ' : ''
   group_id_select = new_resource.group ? 'groups.id, ' : ''
   group_id_table = new_resource.group ? 'groups, ' : ''
@@ -47,6 +67,8 @@ action :add do
 end
 
 action :remove do
+  wait_for_server(36)
+
   group_id_condition = new_resource.group ? "IN (SELECT id FROM groups WHERE name = '#{new_resource.group}')" : 'IS NULL'
 
   mysql_database 'sonar' do

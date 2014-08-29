@@ -56,3 +56,8 @@ sonarqube_mysql_group_permission_template_entry 'add user again to sonar-users' 
   permission_template 'default_template'
   action :add
 end
+
+sonarqube_mysql_user_password 'admin' do
+  crypted_password 'c69266c47cf046c59db184fd299f26051f1e8b30'
+  salt '6522f3c5007ae910ad690bb1bdbf264a34884c6d'
+end
