@@ -5,6 +5,8 @@ Configures a MySQL instance with a database and user for SonarQube. Provides LWR
 ## Notes
 
 - See `test/integration/cookbooks/test` for usage examples
+- Ensure the correct SonarQube URL is set in the attributes
+  - The LWRPs will use this to check the status of the server before trying to update any database tables
 - Does not install SonarQube in case there are specific Java needs on your system
   - add `sonarqube::default` to your run list after `sonarqube-mysql::default` for a simple installation
     - remember to override the JDBC connection attributes to point to your MySQL database
