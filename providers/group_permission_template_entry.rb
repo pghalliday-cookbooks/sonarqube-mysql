@@ -19,17 +19,13 @@ def retry_server(message, attempts)
 end
 
 def wait_for_server(attempts)
-  if attempts == 0
-    raise 'Timed out waiting for server'
-  end
+  fail 'Timed out waiting for server' if attempts == 0
   uri = URI("#{node['sonarqube-mysql']['sonarqube']['url']}/api/server?format=json")
   begin
     response = Net::HTTP.get(uri)
     status = JSON.parse(response)['status']
-    unless status == 'UP'
-      retry_server("status: #{status}", attempts)
-    end
-  rescue Exception => e
+    retry_server("status: #{status}", attempts) unless status == 'UP'
+  rescue => e
     retry_server(e.message, attempts)
   end
 end

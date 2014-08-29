@@ -14,7 +14,7 @@ Configures a MySQL instance with a database and user for SonarQube. Provides LWR
 - Does not install MySQL in case there are specific needs on your system
   - add `mysql::server` to your run list before `sonarqube-mysql::default` for a simple installation
 - Does not run `apt::default` on Ubuntu
-  - add `apt::default` to your run list before anything else if you need it (ie. for the Java installation as described in the previous bullet)
+  - add `apt::default` to your run list before anything else if you're deploying on Ubuntu
 
 ## Contributing
 
