@@ -21,3 +21,5 @@ suites:
       sonarqube-mysql:
         mysql:
           socket: /var/run/mysql-sonar/mysqld.sock
+      java:
+        jdk_version: 7
