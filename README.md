@@ -4,7 +4,7 @@ Configures a MySQL instance with a database and user for SonarQube. Provides LWR
 
 ## Notes
 
-- See `test/integration/cookbooks/test` for usage examples
+- See `test/integration/cookbooks/test` and `.kitchen.yml` for usage examples
 - Ensure the correct SonarQube URL is set in the attributes
   - The LWRPs will use this to check the status of the server before trying to update any database tables
 - Does not install SonarQube in case there are specific needs on your system
@@ -22,7 +22,7 @@ Configures a MySQL instance with a database and user for SonarQube. Provides LWR
 
 - [ChefDK](http://downloads.getchef.com/chef-dk/ "ChefDK")
 - Recent RuboCop
-  
+
   ```
   chef gem install rubocop
   ```
