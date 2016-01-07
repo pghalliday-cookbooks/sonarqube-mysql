@@ -7,9 +7,17 @@ provisioner:
 
 platforms:
   - name: ubuntu-12.04
+    attributes:
+      sonarqube-mysql:
+        mysql:
+          version: "5.5"
   - name: centos-6.4
 
 suites:
   - name: sonarqube-mysql
     run_list:
       - recipe[test::default]
+    attributes:
+      sonarqube-mysql:
+        mysql:
+          socket: /var/run/mysql-sonar/mysqld.sock

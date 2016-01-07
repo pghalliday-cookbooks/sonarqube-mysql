@@ -1,12 +1,15 @@
 include_recipe 'apt' if platform?('ubuntu')
 
-node.override['mysql']['bind_address'] = '0.0.0.0'
-node.override['mysql']['server_root_password'] = 'root'
-include_recipe 'mysql::server'
+mysql_initial_root_password = 'changeme'
+mysql_service 'sonar' do
+  port '3306'
+  initial_root_password mysql_initial_root_password
+  action [:create, :start]
+end
 
 node.override['sonarqube-mysql']['mysql']['host'] = 'localhost'
 node.override['sonarqube-mysql']['mysql']['username'] = 'root'
-node.override['sonarqube-mysql']['mysql']['password'] = node['mysql']['server_root_password']
+node.override['sonarqube-mysql']['mysql']['password'] = mysql_initial_root_password
 include_recipe 'sonarqube-mysql'
 
 include_recipe 'java'

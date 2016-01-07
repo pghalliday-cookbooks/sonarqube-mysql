@@ -6,9 +6,10 @@ use_inline_resources
 
 def mysql_connection_info
   {
-    host: node['sonarqube-mysql']['mysql']['host'],
+    host:     node['sonarqube-mysql']['mysql']['host'],
     username: node['sonarqube-mysql']['username'],
-    password: node['sonarqube-mysql']['password']
+    password: node['sonarqube-mysql']['password'],
+    socket:   node['sonarqube-mysql']['mysql']['socket']
   }
 end
 

@@ -10,7 +10,7 @@ describe 'sonarqube-mysql::default' do
   let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
 
   it 'should configure the sonar database' do
-    expect(chef_run).to include_recipe('database::mysql')
+    expect(chef_run).to install_mysql2_chef_gem('default')
 
     expect(chef_run).to create_mysql_database_user('sonar').with(
       connection: mysql_connection_info,
