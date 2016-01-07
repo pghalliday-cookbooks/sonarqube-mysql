@@ -1,22 +1,15 @@
 require 'serverspec'
 
-include Serverspec::Helper::Exec
-include Serverspec::Helper::DetectOS
-
-RSpec.configure do |c|
-  c.before :all do
-    c.path = '/sbin:/usr/sbin'
-  end
-end
+set :backend, :exec
+set :path, '/bin:$PATH'
 
 describe 'Sonarqube service' do
-
-  it 'is listening on port 9000' do
-    expect(port(9000)).to be_listening
+  describe port(9000) do
+    it { should be_listening }
   end
 
-  it 'has a running service of sonarqube' do
-    expect(service('sonarqube')).to be_running
+  describe service('sonarqube') do
+    it { should be_enabled }
+    it { should be_running }
   end
-
 end
