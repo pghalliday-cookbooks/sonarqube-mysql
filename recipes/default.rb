@@ -1,5 +1,5 @@
 mysql2_chef_gem 'default' do
-  client_version node['sonarqube-mysql']['mysql']['version']
+  package_version node['sonarqube-mysql']['mysql']['version']
   action :install
 end
 
